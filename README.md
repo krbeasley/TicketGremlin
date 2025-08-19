@@ -14,8 +14,6 @@ A small python program that prints "Work Tickets", notes, tasks, etc on a Star M
 
 - Auto-Configuration: The first time gremlin runs, it will ask you to create a configuration file to store some basic information like your printer type (for when more printers are supported) and (possibly) users that will be sending tickets. 
 
-- Task Due Dates: This is pretty self-explanatory and definitely something every ticketing system needs. Rest-assured it's coming.
-
 ---
 
 ## Installation
