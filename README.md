@@ -68,3 +68,8 @@ is mine!
 
 ## Troubleshooting
 
+---
+
+## Todo
+
+- Allow for line breaks in messages.
