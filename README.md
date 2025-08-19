@@ -2,7 +2,7 @@
 
 > Author: [Kyle Beasley](www.github.com/krbeasely)
 
-A small python program that prints "Work Tickets", notes, tasks, etc on a Star Micronics TS650. I mean the OG version released sometime between 1995 and 2005. Not the TS650ii. However the program should still work. This is also only tested on Linux (Debian 13). Other operating systems (and other flavors of linux) might find this program unusable.
+A small python program that prints "Work Tickets", notes, tasks, etc on a Star Micronics TSP650. I mean the OG version released sometime between 1995 and 2005. Not the TSP650ii. However the program should still work. This is also only tested on Linux (Debian 13). Other operating systems (and other flavors of linux) might find this program unusable.
 
 > Inspired by CodingWithLewis's YouTube Video, *I Fixed My ADHD with a Receipt Printer*. I watched the first 23 seconds, said "That's genius I need to do this" and clicked off to Ebay. Thank you for the inspiration Lewis! I've since gone back and finished the video. <3
 >
@@ -50,6 +50,8 @@ A small python program that prints "Work Tickets", notes, tasks, etc on a Star M
 
 ## Basic Usage
 
+Printing tasks is extremely simple. Simply provide gremlin with a `-m` message and he'll print it for you. Optionally, you can include a `-t` title.
+
 ```
 gremlin -t "This is my task!"\
 -m "There are many more like it but this one is mine!"
@@ -67,7 +69,35 @@ is mine!
 
 ```
 
+To pass a due date onto a task, specify it with the ```-d``` flag. Any date can be passed as long as it's in the ```MMDDYYYY``` format. (I'm American, okay?). You may also pass along ```ASAP``` to emphasize the urgency of this task.
+
+```
+gremlin -m "I have to have this done soon." -d "04202025"
+```
+
+Prints:
+
+```
+
+2025-08-19 -- 13:10:30
+
+Due: 04/20/2025
+
+I have to have this done soon.
+
+```
+
 ## Troubleshooting
+
+### "My printer kinda-sorta prints right? And the cut function isn't working..."
+
+> Your Star Micronics TSP650 does not fully understand the ESC/POS commands this application uses. To put your printer in ESCPOS mode, you must flip `Dip Switch 1-1` from `On` to `Off`. Turn off your printer first. Unplug it even.
+
+1. Flip your printer.
+2. Using a Philips head screwdriver, unscrew the Dip Switch cover plate from the base of the printer.
+3. Locate the wider of the two Dip Switch sets. Find the switch labeled "1" (furthest left) and flip it off.
+4. Reassemble your printer and turn it back on.
+5. Try to run it again.
 
 ---
 
