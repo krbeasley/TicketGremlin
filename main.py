@@ -19,9 +19,11 @@ parser.add_argument("-m", default=None, metavar="message",
                     help="The message for the ticket")
 parser.add_argument("-d", default=None, metavar="due",
                     help=("[Optional] The due date of the ticket. Supplied "
-                          "dates should be in the format MMDDYYYY or ASAP"))
+                          "dates should be in the format MMDDYYYY or ASAP "))
 parser.add_argument("--feed-cut", action='store_true',
                     help="Feed and cut the paper, ignoring other commands.")
+parser.add_argument("--print-config", action='store_true',
+                    help="Print the current gremin configuration settings.")
 
 
 def die(message, code=1):
@@ -41,22 +43,33 @@ if __name__ == "__main__":
         printer.device.ln()  # Feed the roll by one line
         printer.cut()
     else:
-        # Print the task / message / thingy
-        if args.m is None:
-            die("You must provide a message")
+        # Check if we should print the config
+        if args.print_config is True:
+            printer.printNow()
+            printer.writeLine(f"Name: {GremlinConfig['name']}")
+            printer.writeLine(f"Verson: {GremlinConfig['version']}")
+        else:
+            # Print the task / message / thingy
+            if args.m is None:
+                die("You must provide a message")
 
-        # Print the date and time at the top of all tickets
-        printer.printNow()
+            # Print the date and time at the top of all tickets
+            printer.printNow()
 
-        # Check if the user provided a title
-        if args.t is not None:
-            # Print the title to the ticket
-            printer.writeLine(args.t)
-            printer.device.ln()  # Extra padding on the bottom of the title
+            # Check if the user provided a title
+            if args.t is not None:
+                # Print the title to the ticket
+                printer.writeLine(args.t)
+                printer.device.ln()  # Extra padding on the bottom of the title
 
-        # Write the message
-        printer.device.ln()  # Padding for the message
-        printer.writeLine(args.m)
+            # Check if we need a due date on the task
+            if args.d is not None:
+                # Print the due date
+                printer.printDueDate(args.d)
+
+            # Write the message
+            printer.device.ln()  # Padding for the message
+            printer.writeLine(args.m)
 
         # Cut the roll
         printer.cut()

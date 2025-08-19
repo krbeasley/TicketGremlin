@@ -56,3 +56,11 @@ class StarPrinter:
     def printNow(self):
         now = datetime.today().strftime("%H:%M:%S -- %m/%d/%Y")
         self.writeLine(now)
+
+    def printDueDate(self, dueDate):
+        if str(dueDate).upper() != "ASAP":
+            now = datetime.strptime(dueDate, "%m%d%Y")
+            self.writeLine("Due: " + now.strftime("%m/%d/%Y"))
+        else:
+            self.writeLine("Due: ASAP")
+            self.device.ln()
