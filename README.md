@@ -49,7 +49,10 @@ A small python program that prints "Work Tickets", notes, tasks, etc on a Star M
 
 ## Basic Usage
 
-```gremlin -t "This is my task!" -m "There are many more like it but this one is mine!"```
+```
+gremlin -t "This is my task!"\
+-m "There are many more like it but this one is mine!"
+```
 
 Prints the ticket:
 
