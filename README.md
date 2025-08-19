@@ -35,9 +35,10 @@ A small python program that prints "Work Tickets", notes, tasks, etc on a Star M
 ```$ pip install -r requirements.txt```
 
 4. \[Optional\] Create an alias for gremlin.
+    - Make gremlin's `main.py` file executable. ```chmod u+x main.py```
     - Using your editor of choice, modify your ```~/.bash_aliases``` file.
     - On a new line, enter the following:
-    ```alias gremlin="python3 /your/install/dir/TicketGremlin/main.py"```
+    ```alias gremlin="/home/your/install/dir/TicketGremlin/main.py"```
     - Run ```source ~/.bashrc``` and ```gremlin``` becomes a globally available resource.
 
 5. \[Not Optional\] Ensure you have permission to use the printer.
