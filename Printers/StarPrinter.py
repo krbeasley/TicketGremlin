@@ -1,4 +1,5 @@
 from escpos.printer import Usb
+from datetime import datetime
 
 MAX_LINE_LEN = 42
 
@@ -51,3 +52,7 @@ class StarPrinter:
 
     def cut(self):
         self.device.cut()
+
+    def printNow(self):
+        now = datetime.today().strftime("%H:%M:%S -- %m/%d/%Y")
+        self.writeLine(now)
