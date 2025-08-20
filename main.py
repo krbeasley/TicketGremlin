@@ -2,6 +2,8 @@
 
 import argparse
 from Printers.StarPrinter import StarPrinter
+from Printables.Message import Message
+from Printables.Task import Task
 
 GremlinConfig = {
     "name": "Gremlin",
@@ -53,23 +55,15 @@ if __name__ == "__main__":
             if args.m is None:
                 die("You must provide a message")
 
-            # Print the date and time at the top of all tickets
-            printer.printNow()
+            message = Message(body=args.m)
 
-            # Check if the user provided a title
-            if args.t is not None:
-                # Print the title to the ticket
-                printer.writeLine(args.t)
-                printer.device.ln()  # Extra padding on the bottom of the title
-
-            # Check if we need a due date on the task
             if args.d is not None:
-                # Print the due date
-                printer.printDueDate(args.d)
+                message = Task(body=args.m, due_date=args.d)
 
-            # Write the message
-            printer.device.ln()  # Padding for the message
-            printer.writeLine(args.m)
+            if args.t is not None:
+                message.setSubject(args.t)
+        # Print the message / task
+        printer.printMessage(message)
 
         # Cut the roll
         printer.cut()
