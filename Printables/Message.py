@@ -18,22 +18,24 @@ class Message:
         text_arr = []
         # Loop through the lines and push them to the text_arr
         for line in tmp_arr:
-            # Continue splitting and adding lines until you're left with
-            # something that'll fit on one line.
-            while len(line) > self.MAX_LEN:
-                loop = 0
-                nChars = getNChars(line, self.MAX_LEN)
-                # make sure we're not splitting in the middle of a word
-                while nChars[-1] not in [" ", "-", ":", "/"]:
-                    # Check we're not stuck in an infinite loop
-                    if loop > 100:
-                        print("Looped too many times reducing a string.")
-                        exit(1)
-                    loop = loop + 1
-                    nChars = getNChars(line, self.MAX_LEN + loop)
-                # Remove nChars from the line
-                line = line.replace(nChars, "")
-                text_arr.append(nChars.strip())
+            # ignore this if it's an image path
+            if not line.startswith("[[image]]"):
+                # Continue splitting and adding lines until you're left with
+                # something that'll fit on one line.
+                while len(line) > self.MAX_LEN:
+                    loop = 0
+                    nChars = getNChars(line, self.MAX_LEN)
+                    # make sure we're not splitting in the middle of a word
+                    while nChars[-1] not in [" ", "-", ":", "/"]:
+                        # Check we're not stuck in an infinite loop
+                        if loop > 100:
+                            print("Looped too many times reducing a string.")
+                            exit(1)
+                        loop = loop + 1
+                        nChars = getNChars(line, self.MAX_LEN + loop)
+                    # Remove nChars from the line
+                    line = line.replace(nChars, "")
+                    text_arr.append(nChars.strip())
             # Make sure to add whatever's left
             text_arr.append(line.strip())
         # Strip the last line if it's blank

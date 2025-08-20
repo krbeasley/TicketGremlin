@@ -4,10 +4,11 @@ import argparse
 from Printers.StarPrinter import StarPrinter
 from Printables.Message import Message
 from Printables.Task import Task
+from os import path
 
 GremlinConfig = {
     "name": "Gremlin",
-    "version": "0.1.0"
+    "version": "0.5.0"
 }
 
 parser = argparse.ArgumentParser(
@@ -50,6 +51,11 @@ if __name__ == "__main__":
             printer.printNow()
             printer.writeLine(f"Name: {GremlinConfig['name']}")
             printer.writeLine(f"Verson: {GremlinConfig['version']}")
+            printer.device.image(
+                path.join(
+                    path.dirname(path.abspath(__file__)),
+                    "gremlin_guy.gif"
+                ))
         else:
             # Print the task / message / thingy
             if args.m is None:
@@ -62,8 +68,8 @@ if __name__ == "__main__":
 
             if args.t is not None:
                 message.setSubject(args.t)
-        # Print the message / task
-        printer.printMessage(message)
+            # Print the message / task
+            printer.printMessage(message)
 
         # Cut the roll
         printer.cut()

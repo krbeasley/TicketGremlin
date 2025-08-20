@@ -13,7 +13,12 @@ class StarPrinter:
     def printMessage(self, message):
         self.printNow()
         for line in message.render():
-            self.writeLine(line)
+            if str(line).startswith("[[image]]"):
+                # draw an image
+                filepath = line.replace("[[image]]", "")
+                self.device.image(filepath)
+            else:
+                self.writeLine(line)
 
     def writeLine(self, line):
         self.device.textln(line)
