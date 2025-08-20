@@ -91,6 +91,12 @@ I have to have this done soon.
 
 ```
 
+New lines are as simple as including `\n` in the title or the body of the task.
+
+Images can be included by starting a new line with `[[image]]` followed by the full path to the image you with to print.
+
+```\n[[image]]/path/to/image.jpg\n```
+
 ## Troubleshooting
 
 ### "My printer kinda-sorta prints right? And the cut function isn't working..."
