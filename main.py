@@ -19,7 +19,7 @@ printer = StarPrinter()
 parser = argparse.ArgumentParser(
     description=("Simple python script to print tickets and reminders on a "
                  "Star Micronics TSP650"),
-    epilog=f"View the source @ {GremlinConfig['source']}"
+    epilog=f"View the source @ {GremlinConfig['Source']}"
 )
 parser.add_argument("-t", default=None, metavar="title",
                     help="[Optional] The title of the ticket")
