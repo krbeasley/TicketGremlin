@@ -41,6 +41,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     printer.device.open()  # Open the printer connection.
 
+    # print("ARGS")
+    # print(args)
+    # print()
+
     if args.feed_cut is True:
         # Check if the user is just asking to feed and cut
         printer.device.ln()  # Feed the roll by one line
@@ -61,13 +65,17 @@ if __name__ == "__main__":
             if args.m is None:
                 die("You must provide a message")
 
+            # print(f"DEBUG: Assigning body {args.m}")
             message = Message(body=args.m)
 
             if args.d is not None:
+                # print("DEBUG: Due Date found. Making ticket")
                 message = Task(body=args.m, due_date=args.d)
 
             if args.t is not None:
+                # print(f"DEBUG: Assigning title {args.t}")
                 message.setSubject(args.t)
+
             # Print the message / task
             printer.printMessage(message)
 

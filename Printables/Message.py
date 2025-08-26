@@ -19,23 +19,26 @@ class Message:
         # Loop through the lines and push them to the text_arr
         for line in tmp_arr:
             # ignore this if it's an image path
-            if not line.startswith("[[image]]"):
-                # Continue splitting and adding lines until you're left with
-                # something that'll fit on one line.
-                while len(line) > self.MAX_LEN:
-                    loop = 0
-                    nChars = getNChars(line, self.MAX_LEN)
-                    # make sure we're not splitting in the middle of a word
-                    while nChars[-1] not in [" ", "-", ":", "/"]:
-                        # Check we're not stuck in an infinite loop
-                        if loop > 100:
-                            print("Looped too many times reducing a string.")
-                            exit(1)
-                        loop = loop + 1
-                        nChars = getNChars(line, self.MAX_LEN + loop)
-                    # Remove nChars from the line
-                    line = line.replace(nChars, "")
-                    text_arr.append(nChars.strip())
+            if line.startswith("[[image]]"):
+                continue
+
+            # Continue splitting and adding lines until you're left with
+            # something that'll fit on one line.
+            while len(line) > self.MAX_LEN:
+                nChars = getNChars(line, self.MAX_LEN)
+                # Reduce nChars until the last character is a ' '
+                nCount = 0
+                while nChars[-1] != ' ' and nChars[-1] != '-':
+                    nChars = getNChars(line, self.MAX_LEN - nCount)
+                    nCount += 1
+
+                    # Check we're not stuck in a loop
+                    if nCount > 4 * self.MAX_LEN:
+                        raise RuntimeError("Looped too many times reducing a string")
+
+                # Remove nChars from the line
+                line = line.replace(nChars, "")
+                text_arr.append(nChars.strip())
             # Make sure to add whatever's left
             text_arr.append(line.strip())
         # Strip the last line if it's blank
@@ -45,7 +48,14 @@ class Message:
         return text_arr
 
     def setBody(self, body):
-        self.body = self.createTextArray(body)
+        # print(f"DEBUG: Setting body of type {type(body)}")
+        try:
+            self.body = self.createTextArray(body)
+        except IndexError:
+            print("Error: body could not be set on message")
+            print(f"Body: ${self.body}")
+            print(f"Type: ${type(self.body)}")
+            exit(1)
 
     def parseNewLines(self, text):
         ret = []
