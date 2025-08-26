@@ -110,8 +110,3 @@ Images can be included by starting a new line with `[[image]]` followed by the f
 5. Try to run it again.
 
 ---
-
-## Todo
-
-- Allow for line breaks in messages.
-- Image Support

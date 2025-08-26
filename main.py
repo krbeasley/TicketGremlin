@@ -8,7 +8,7 @@ from os import path
 
 GremlinConfig = {
     "name": "Gremlin",
-    "version": "0.5.0"
+    "version": "0.5.1"
 }
 
 parser = argparse.ArgumentParser(
