@@ -48,7 +48,6 @@ class Message:
         return text_arr
 
     def setBody(self, body):
-        # print(f"DEBUG: Setting body of type {type(body)}")
         try:
             self.body = self.createTextArray(body)
         except IndexError:

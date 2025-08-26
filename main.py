@@ -7,14 +7,19 @@ from Printables.Task import Task
 from os import path
 
 GremlinConfig = {
-    "name": "Gremlin",
-    "version": "0.5.1"
+    "Name": "Gremlin",
+    "Version": "0.5.1",
+    "Source": "github.com/krbeasley/TicketGremlin"
 }
 
+# Load the printer
+printer = StarPrinter()
+
+# Setup the argument parser
 parser = argparse.ArgumentParser(
     description=("Simple python script to print tickets and reminders on a "
                  "Star Micronics TSP650"),
-    epilog="View the source @ github.com/krbeasley/TicketPrinter"
+    epilog=f"View the source @ {GremlinConfig['source']}"
 )
 parser.add_argument("-t", default=None, metavar="title",
                     help="[Optional] The title of the ticket")
@@ -26,7 +31,20 @@ parser.add_argument("-d", default=None, metavar="due",
 parser.add_argument("--feed-cut", action='store_true',
                     help="Feed and cut the paper, ignoring other commands.")
 parser.add_argument("--print-config", action='store_true',
-                    help="Print the current gremin configuration settings.")
+                    help="Print the current gremlin configuration settings.")
+
+
+def printConfig():
+    """Print the current configuration and setup of Gremlin"""
+    for key in GremlinConfig.keys():
+        value = GremlinConfig.get(key)
+        printer.writeLine(f"{key}: {value}")
+    # Print the homie
+    printer.device.image(
+        path.join(
+            path.dirname(path.abspath(__file__)),
+            "gremlin_guy.gif"
+        ))
 
 
 def die(message, code=1):
@@ -34,16 +52,9 @@ def die(message, code=1):
     exit(code)
 
 
-# Load the printer
-printer = StarPrinter()
-
 if __name__ == "__main__":
     args = parser.parse_args()
     printer.device.open()  # Open the printer connection.
-
-    # print("ARGS")
-    # print(args)
-    # print()
 
     if args.feed_cut is True:
         # Check if the user is just asking to feed and cut
@@ -52,28 +63,18 @@ if __name__ == "__main__":
     else:
         # Check if we should print the config
         if args.print_config is True:
-            printer.printNow()
-            printer.writeLine(f"Name: {GremlinConfig['name']}")
-            printer.writeLine(f"Verson: {GremlinConfig['version']}")
-            printer.device.image(
-                path.join(
-                    path.dirname(path.abspath(__file__)),
-                    "gremlin_guy.gif"
-                ))
+            printConfig()
         else:
             # Print the task / message / thingy
             if args.m is None:
                 die("You must provide a message")
 
-            # print(f"DEBUG: Assigning body {args.m}")
             message = Message(body=args.m)
 
             if args.d is not None:
-                # print("DEBUG: Due Date found. Making ticket")
                 message = Task(body=args.m, due_date=args.d)
 
             if args.t is not None:
-                # print(f"DEBUG: Assigning title {args.t}")
                 message.setSubject(args.t)
 
             # Print the message / task
